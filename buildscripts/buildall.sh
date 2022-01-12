@@ -76,7 +76,7 @@ ar = 'llvm-ar'
 strip = '$ndk_triple-strip'
 pkgconfig = 'pkg-config'
 [host_machine]
-system = 'linux'
+system = 'android'
 cpu_family = '${ndk_triple%%-*}'
 cpu = '${CC%%-*}'
 endian = 'little'
@@ -148,6 +148,6 @@ setup_prefix
 build $target
 
 [ "$target" == "mpv-android" ] && \
-	ls -lh ../app/build/outputs/apk/{debug,release}/*.apk
+	ls -lh ../app/build/outputs/aar/*.aar
 
 exit 0

@@ -12,7 +12,7 @@ import android.view.*
 import kotlin.math.abs
 import kotlin.reflect.KProperty
 
-internal class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attrs), SurfaceHolder.Callback {
+class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attrs), SurfaceHolder.Callback {
     fun initialize(configDir: String) {
         MPVLib.create(this.context)
         MPVLib.setOptionString("config", "yes")
