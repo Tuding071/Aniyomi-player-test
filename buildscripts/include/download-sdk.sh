@@ -15,7 +15,7 @@ if [ "$os" == "linux" ]; then
 			sudo pip3 install meson; }
 		apt-get -v &>/dev/null && {
 			sudo apt-get install autoconf pkg-config libtool ninja-build \
-			python3-pip python3-setuptools unzip;
+			python3-pip python3-setuptools unzip nasm;
 			sudo pip3 install meson; }
 	fi
 
