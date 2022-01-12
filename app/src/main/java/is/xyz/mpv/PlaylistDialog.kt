@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-internal class PlaylistDialog(private val player: MPVView) {
+class PlaylistDialog(private val player: MPVView) {
     private lateinit var binding: DialogPlaylistBinding
 
     private var playlist = listOf<MPVView.PlaylistItem>()
