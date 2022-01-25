@@ -10,7 +10,7 @@ android {
         // Do NOT bump this to 30 before figuring out the implications of scoped storage
         targetSdkVersion 29
         versionCode 26
-        versionName "0.2"
+        versionName "0.3"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -27,7 +27,7 @@ dependencies {
 }
 
 def getVersionName = { ->
-    return "0.2"
+    return "0.3"
 }
 
 def getGroupId = { ->
