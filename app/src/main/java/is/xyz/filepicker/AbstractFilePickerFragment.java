@@ -165,7 +165,9 @@ public abstract class AbstractFilePickerFragment<T> extends Fragment
      *
      * @param nextPath path to list files for
      */
-    protected void refresh(@NonNull T nextPath) {
+    protected void refresh(T nextPath) {
+        if (nextPath == null)
+            return;
         mCurrentPath = nextPath;
         isLoading = true;
         if (hasPermission(nextPath)) {
@@ -225,9 +227,9 @@ public abstract class AbstractFilePickerFragment<T> extends Fragment
         mFiles = data;
         mAdapter.setList(data);
         onChangePath(mCurrentPath);
-        String path = ((File)mCurrentPath).getPath();
-        if (mPositionMap.containsKey(path))
-            layoutManager.scrollToPositionWithOffset(mPositionMap.get(path), 0);
+        String key = mCurrentPath.toString();
+        if (mPositionMap.containsKey(key))
+            layoutManager.scrollToPositionWithOffset(mPositionMap.get(key), 0);
         else
             layoutManager.scrollToPositionWithOffset(0, 0);
     }
@@ -319,8 +321,8 @@ public abstract class AbstractFilePickerFragment<T> extends Fragment
      * <p/>
      */
     public void goUp() {
-        String path = ((File)mCurrentPath).getPath();
-        mPositionMap.remove(path);
+        String key = mCurrentPath.toString();
+        mPositionMap.remove(key);
         goToDir(getParent(mCurrentPath));
     }
 
@@ -332,8 +334,8 @@ public abstract class AbstractFilePickerFragment<T> extends Fragment
      */
     public void onClickDir(@NonNull View view, @NonNull DirViewHolder viewHolder) {
         if (isDir(viewHolder.file)) {
-            String path = ((File)mCurrentPath).getPath();
-            mPositionMap.put(path, layoutManager.findFirstVisibleItemPosition());
+            String key = mCurrentPath.toString();
+            mPositionMap.put(key, layoutManager.findFirstVisibleItemPosition());
             goToDir(viewHolder.file);
         }
     }
