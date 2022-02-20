@@ -105,8 +105,6 @@ class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attr
         MPVLib.setOptionString("hwdec", hwdec)
         MPVLib.setOptionString("hwdec-codecs", "h264,hevc,mpeg4,mpeg2video,vp8,vp9")
         MPVLib.setOptionString("ao", "audiotrack,opensles")
-        MPVLib.setOptionString("tls-verify", "yes")
-        MPVLib.setOptionString("tls-ca-file", "${this.context.filesDir.path}/cacert.pem")
         MPVLib.setOptionString("input-default-bindings", "yes")
         // Limit demuxer cache to 32 MiB, the default is too high for mobile devices
         MPVLib.setOptionString("demuxer-max-bytes", "${32 * 1024 * 1024}")
