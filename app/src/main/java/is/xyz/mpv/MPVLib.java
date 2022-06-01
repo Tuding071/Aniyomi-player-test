@@ -87,6 +87,13 @@ public class MPVLib {
           }
      }
 
+     public static void efEvent(String err) {
+          synchronized (observers) {
+               for (EventObserver o : observers)
+                    o.efEvent(err);
+          }
+     }
+
      private static final List<LogObserver> log_observers = new ArrayList<>();
 
      public static void addLogObserver(LogObserver o) {
@@ -109,6 +116,7 @@ public class MPVLib {
           void eventProperty(@NonNull String property, boolean value);
           void eventProperty(@NonNull String property, @NonNull String value);
           void event(int eventId);
+          void efEvent(String err);
      }
 
      public interface LogObserver {

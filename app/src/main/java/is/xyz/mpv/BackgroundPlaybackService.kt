@@ -125,6 +125,8 @@ class BackgroundPlaybackService : Service(), MPVLib.EventObserver {
             stopSelf()
     }
 
+    override fun efEvent(err: String?) {}
+
 
     companion object {
         /* Using this property MPVActivity gives us a thumbnail

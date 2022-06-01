@@ -1628,6 +1628,8 @@ class MPVActivity : AppCompatActivity(), MPVLib.EventObserver, TouchGesturesObse
         runOnUiThread { eventUi(eventId) }
     }
 
+    override fun efEvent(err: String?) {}
+
     // Gesture handler
 
     private var initialSeek = 0

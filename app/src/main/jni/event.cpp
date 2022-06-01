@@ -37,6 +37,15 @@ static void sendEventToJava(JNIEnv *env, int event) {
     env->CallStaticVoidMethod(mpv_MPVLib, mpv_MPVLib_event, event);
 }
 
+static void sendEefErrorToJava(JNIEnv *env, mpv_event_end_file *eef) {
+    if (eef->error) {
+        jstring jerr = env->NewStringUTF(*(const char**)mpv_error_string(eef->error));
+        env->CallStaticVoidMethod(mpv_MPVLib, mpv_MPVLib_efEvent, jerr);
+        if (jerr)
+            env->DeleteLocalRef(jerr);
+    }
+}
+
 static inline bool invalid_utf8(unsigned char c) {
     return c == 0xc0 || c == 0xc1 || c >= 0xf5;
 }
@@ -71,6 +80,7 @@ void *event_thread(void *arg) {
         mpv_event *mp_event;
         mpv_event_property *mp_property = NULL;
         mpv_event_log_message *msg = NULL;
+        mpv_event_end_file *eef = NULL;
 
         mp_event = mpv_wait_event(g_mpv, -1.0);
 
@@ -89,6 +99,12 @@ void *event_thread(void *arg) {
         case MPV_EVENT_PROPERTY_CHANGE:
             mp_property = (mpv_event_property*)mp_event->data;
             sendPropertyUpdateToJava(env, mp_property);
+            break;
+        case MPV_EVENT_END_FILE:
+            ALOGV("event: %s\n", mpv_event_name(mp_event->event_id));
+            sendEventToJava(env, mp_event->event_id);
+            eef = (mpv_event_end_file*)mp_event->data;
+            sendEefErrorToJava(env, eef);
             break;
         default:
             ALOGV("event: %s\n", mpv_event_name(mp_event->event_id));
