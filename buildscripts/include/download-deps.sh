@@ -15,33 +15,34 @@ if [ ! -d mbedtls ]; then
 fi
 
 # dav1d
-[ ! -d dav1d ] && git clone https://code.videolan.org/videolan/dav1d.git
+[ ! -d dav1d ] && git clone https://github.com/tanersener/dav1d
+( cd dav1d; git checkout 0.9.2 )
 
 # ffmpeg
 if [ ! -d ffmpeg ]; then
-	git clone https://github.com/FFmpeg/FFmpeg ffmpeg
-	[ $TRAVIS -eq 1 ] && ( cd ffmpeg; git checkout $v_travis_ffmpeg )
+	git clone https://github.com/tanersener/FFmpeg ffmpeg
+	( cd ffmpeg; git checkout 90da43557f7257d72e95504f63ae6504406d6eab )
 fi
 
 # freetype2
-[ ! -d freetype2 ] && git clone git://git.sv.nongnu.org/freetype/freetype2.git -b VER-$v_freetype
+[ ! -d freetype2 ] && git clone https://github.com/tanersener/freetype2
+( cd freetype2; git checkout VER-2-11-0 )
 
 # fribidi
 if [ ! -d fribidi ]; then
-	mkdir fribidi
-	$WGET https://github.com/fribidi/fribidi/releases/download/v$v_fribidi/fribidi-$v_fribidi.tar.xz -O - | \
-		tar -xJ -C fribidi --strip-components=1
+	git clone https://github.com/tanersener/fribidi
+	( cd fribidi; git checkout v1.0.10 )
 fi
 
 # harfbuzz
 if [ ! -d harfbuzz ]; then
-	mkdir harfbuzz
-	$WGET https://github.com/harfbuzz/harfbuzz/releases/download/$v_harfbuzz/harfbuzz-$v_harfbuzz.tar.xz -O - | \
-		tar -xJ -C harfbuzz --strip-components=1
+	git clone https://github.com/tanersener/harfbuzz
+	( cd harfbuzz; git checkout 2.9.1 )
 fi
 
 # libass
-[ ! -d libass ] && git clone https://github.com/libass/libass
+[ ! -d libass ] && git clone https://github.com/tanersener/libass
+( cd libass; git checkout 0.15.2 )
 
 # lua
 if [ ! -d lua ]; then
@@ -52,5 +53,6 @@ fi
 
 # mpv
 [ ! -d mpv ] && git clone https://github.com/mpv-player/mpv
+( cd mpv; git checkout v0.34.1 )
 
 cd ..

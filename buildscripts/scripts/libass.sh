@@ -16,8 +16,11 @@ fi
 mkdir -p _build$ndk_suffix
 cd _build$ndk_suffix
 
+extra=
+[[ "$ndk_triple" == "i686"* ]] && extra="--disable-asm"
+
 ../configure \
-	--host=$ndk_triple --with-pic \
+	--host=$ndk_triple $extra \
 	--enable-static --disable-shared \
 	--disable-require-system-font-provider
 
