@@ -28,9 +28,9 @@ class VersionInfoDialog @JvmOverloads constructor(
         super.onBindDialogView(view)
         myView = view
 
-        versionText = "mpv-android 0.9 (${BuildConfig.BUILD_TYPE})\n"
+        versionText = "aniyomi-mpv 1.0 (${BuildConfig.BUILD_TYPE})\n"
         /* create mpv context to capture version info from log */
-        MPVLib.create(context)
+        MPVLib.create(context, "v")
         MPVLib.addLogObserver(this)
         MPVLib.init()
     }

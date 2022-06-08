@@ -23,8 +23,10 @@ extern "C" {
 }
 
 jni_func(jint, setOptionString, jstring joption, jstring jvalue) {
-    if (!g_mpv)
+    if (!g_mpv) {
         die("mpv is not initialized");
+        return -1;
+    }
 
     const char *option = env->GetStringUTFChars(joption, NULL);
     const char *value = env->GetStringUTFChars(jvalue, NULL);
@@ -38,8 +40,10 @@ jni_func(jint, setOptionString, jstring joption, jstring jvalue) {
 }
 
 static int common_get_property(JNIEnv *env, jstring jproperty, mpv_format format, void *output) {
-    if (!g_mpv)
+    if (!g_mpv) {
         die("get_property called but mpv is not initialized");
+        return -1;
+    }
 
     const char *prop = env->GetStringUTFChars(jproperty, NULL);
     int result = mpv_get_property(g_mpv, prop, format, output);
@@ -51,8 +55,10 @@ static int common_get_property(JNIEnv *env, jstring jproperty, mpv_format format
 }
 
 static int common_set_property(JNIEnv *env, jstring jproperty, mpv_format format, void *value) {
-    if (!g_mpv)
+    if (!g_mpv) {
         die("set_property called but mpv is not initialized");
+        return -1;
+    }
 
     const char *prop = env->GetStringUTFChars(jproperty, NULL);
     int result = mpv_set_property(g_mpv, prop, format, value);
@@ -115,8 +121,10 @@ jni_func(void, setPropertyString, jstring jproperty, jstring jvalue) {
 }
 
 jni_func(void, observeProperty, jstring property, jint format) {
-    if (!g_mpv)
+    if (!g_mpv) {
         die("mpv is not initialized");
+        return;
+    }
     const char *prop = env->GetStringUTFChars(property, NULL);
     mpv_observe_property(g_mpv, 0, prop, (mpv_format)format);
     env->ReleaseStringUTFChars(property, prop);

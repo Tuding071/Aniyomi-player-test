@@ -13,8 +13,8 @@ import kotlin.math.abs
 import kotlin.reflect.KProperty
 
 class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attrs), SurfaceHolder.Callback {
-    fun initialize(configDir: String) {
-        MPVLib.create(this.context)
+    fun initialize(configDir: String, logLvl: String = "v") {
+        MPVLib.create(this.context, logLvl)
         MPVLib.setOptionString("config", "yes")
         MPVLib.setOptionString("config-dir", configDir)
         initOptions() // do this before init() so user-supplied config can override our choices

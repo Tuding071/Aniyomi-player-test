@@ -20,7 +20,7 @@ public class MPVLib {
         }
      }
 
-     public static native void create(Context appctx);
+     public static native void create(Context appctx, String logLvl);
      public static native void init();
      public static native void destroy();
      public static native void attachSurface(Surface surface);

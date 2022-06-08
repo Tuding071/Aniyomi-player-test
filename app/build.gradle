@@ -11,7 +11,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 28
-        versionName "0.9"
+        versionName "1.0"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -53,11 +53,17 @@ dependencies {
 }
 
 def getVersionName = { ->
-    return "0.9"
+    return "1.0"
 }
 
 def getGroupId = { ->
     return "com.github.jmir1"
+}
+
+
+task sourceJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
 }
 
 publishing {
@@ -67,6 +73,7 @@ publishing {
             version getVersionName()
             // Place the path of your artifact here
             artifact("$buildDir/outputs/aar/aniyomi-mpv-lib-release.aar")
+            artifact(tasks["sourceJar"])
         }
     }
 }
