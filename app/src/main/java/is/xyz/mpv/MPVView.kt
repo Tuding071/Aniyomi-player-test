@@ -191,6 +191,7 @@ class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attr
             Property("paused-for-cache", MPV_FORMAT_FLAG),
             Property("seeking", MPV_FORMAT_FLAG),
             Property("pause", MPV_FORMAT_FLAG),
+            Property("eof-reached", MPV_FORMAT_FLAG),
             Property("track-list"),
             Property("video-params"),
             Property("playlist-pos", MPV_FORMAT_INT64),
