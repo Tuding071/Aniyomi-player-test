@@ -21,23 +21,23 @@ fi
 # ffmpeg
 if [ ! -d ffmpeg ]; then
 	git clone https://github.com/tanersener/FFmpeg ffmpeg
-	( cd ffmpeg; git checkout 90da43557f7257d72e95504f63ae6504406d6eab )
+	( cd ffmpeg; git checkout 30322ebe3c55d0fb18bea4ae04d0fcaf1f97d27f )
 fi
 
 # freetype2
 [ ! -d freetype2 ] && git clone https://github.com/tanersener/freetype2
-( cd freetype2; git checkout VER-2-11-0 )
+( cd freetype2; git checkout VER-2-11-1 )
 
 # fribidi
 if [ ! -d fribidi ]; then
 	git clone https://github.com/tanersener/fribidi
-	( cd fribidi; git checkout v1.0.10 )
+	( cd fribidi; git checkout v1.0.11 )
 fi
 
 # harfbuzz
 if [ ! -d harfbuzz ]; then
 	git clone https://github.com/tanersener/harfbuzz
-	( cd harfbuzz; git checkout 2.9.1 )
+	( cd harfbuzz; git checkout 3.2.0 )
 fi
 
 # libass
