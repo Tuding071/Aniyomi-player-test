@@ -95,7 +95,6 @@ void *event_thread(void *arg) {
         switch (mp_event->event_id) {
         case MPV_EVENT_LOG_MESSAGE:
             msg = (mpv_event_log_message*)mp_event->data;
-            ALOGV("[%s:%s] %s", msg->prefix, msg->level, msg->text);
             sendLogMessageToJava(env, msg);
             break;
         case MPV_EVENT_PROPERTY_CHANGE:
@@ -103,13 +102,11 @@ void *event_thread(void *arg) {
             sendPropertyUpdateToJava(env, mp_property);
             break;
         case MPV_EVENT_END_FILE:
-            ALOGV("event: %s\n", mpv_event_name(mp_event->event_id));
             sendEventToJava(env, mp_event->event_id);
             eef = (mpv_event_end_file*)mp_event->data;
             sendEefErrorToJava(env, eef);
             break;
         default:
-            ALOGV("event: %s\n", mpv_event_name(mp_event->event_id));
             sendEventToJava(env, mp_event->event_id);
             break;
         }
