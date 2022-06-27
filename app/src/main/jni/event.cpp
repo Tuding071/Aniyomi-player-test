@@ -39,7 +39,7 @@ static void sendEventToJava(JNIEnv *env, int event) {
 
 static void sendEefErrorToJava(JNIEnv *env, mpv_event_end_file *eef) {
     if (eef->error) {
-        jstring jerr = env->NewStringUTF(*(const char**)mpv_error_string(eef->error));
+        jstring jerr = env->NewStringUTF(mpv_error_string(eef->error));
         env->CallStaticVoidMethod(mpv_MPVLib, mpv_MPVLib_efEvent, jerr);
         if (jerr)
             env->DeleteLocalRef(jerr);
