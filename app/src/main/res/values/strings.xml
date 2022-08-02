@@ -42,6 +42,7 @@
     <string name="sub_delay">Subtitle delay</string>
     <string name="notice_show_all_files">Showing all files</string>
     <string name="notice_show_media_files">Showing media files only</string>
+    <string name="option_remember_choice">Remember choice on next startup</string>
 
     <!-- Action buttons -->
     <string name="switch_orientation">Switch Orientation</string>
@@ -52,9 +53,11 @@
     <string name="toggle_stats">Toggle stats</string>
     <string name="chapter_button">Chapter</string>
     <string name="sub_seek_button">Seek by subtitle</string>
+    <string name="file_picker_old">File Picker\n(legacy)</string>
     <string name="action_settings">Settings</string>
     <string name="action_playlist">Playlist</string>
     <string name="action_open_url">Open URL</string>
+    <string name="action_open_doc_tree">Open Document Tree</string>
     <string name="action_pick_file">Pick File</string>
     <string name="action_external_storage">External storage</string>
     <string name="action_toggle_filter">Toggle Filter</string>
