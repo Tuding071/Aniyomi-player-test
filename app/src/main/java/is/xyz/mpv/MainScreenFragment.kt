@@ -3,8 +3,7 @@ package `is`.xyz.mpv
 import `is`.xyz.filepicker.DocumentPickerFragment
 import `is`.xyz.mpv.config.SettingsActivity
 import `is`.xyz.mpv.databinding.FragmentMainScreenBinding
-import android.app.Activity
-import android.content.Intent
+import android.content.*
 import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -13,15 +12,28 @@ import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
     private lateinit var binding: FragmentMainScreenBinding
 
     private lateinit var documentTreeOpener: ActivityResultLauncher<Intent>
-    private lateinit var filePickerLauncher: ActivityResultLauncher<Intent>
-    private lateinit var playerLauncher: ActivityResultLauncher<Intent>
 
     private var firstRun = true
+
+    // FilePickerActivity uses a broadcast intent (yes really) to inform us of a picked file
+    // so that the activity stack is preserved and the file picker stays in the activity stack
+    private val broadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent == null) {
+                Log.v(TAG, "file picker cancelled")
+                return
+            }
+            val path = intent.getStringExtra("path")
+            if (path != null)
+                playFile(path)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,29 +47,32 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
                 val i = Intent(context, FilePickerActivity::class.java)
                 i.putExtra("skip", FilePickerActivity.DOC_PICKER)
                 i.putExtra("root", root.toString())
-                filePickerLauncher.launch(i)
+                i.putExtra("broadcast", true)
+                startActivity(i)
             }
         }
-        filePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode != Activity.RESULT_OK) {
-                Log.v(TAG, "file picker cancelled")
-                return@registerForActivityResult
-            }
-            val path = it.data?.getStringExtra("path")
-            if (path != null)
-                playFile(path)
-        }
-        playerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            // we don't care about the result but reset the first-run state here
-            firstRun = true
-        }
+
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
+            broadcastReceiver, IntentFilter(FilePickerActivity.BROADCAST_INTENT))
+    }
+
+    override fun onDestroy() {
+        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(broadcastReceiver)
+
+        super.onDestroy()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentMainScreenBinding.bind(view)
 
         binding.docBtn.setOnClickListener {
-            documentTreeOpener.launch(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE))
+            try {
+                documentTreeOpener.launch(Intent(Intent.ACTION_OPEN_DOCUMENT_TREE))
+            } catch (e: ActivityNotFoundException) {
+                // Android TV doesn't come with a document picker and certain versions just throw
+                // instead of handling this gracefully
+                binding.docBtn.isEnabled = false
+            }
         }
         binding.urlBtn.setOnClickListener {
             saveChoice("url")
@@ -74,7 +89,8 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
             saveChoice("file")
             val i = Intent(context, FilePickerActivity::class.java)
             i.putExtra("skip", FilePickerActivity.FILE_PICKER)
-            filePickerLauncher.launch(i)
+            i.putExtra("broadcast", true)
+            startActivity(i)
         }
         binding.settingsBtn.setOnClickListener {
             saveChoice("") // will reset
@@ -122,7 +138,8 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
                 val i = Intent(context, FilePickerActivity::class.java)
                 i.putExtra("skip", FilePickerActivity.DOC_PICKER)
                 i.putExtra("root", uri.toString())
-                filePickerLauncher.launch(i)
+                i.putExtra("broadcast", true)
+                startActivity(i)
             }
             "url" -> binding.urlBtn.callOnClick()
             "file" -> binding.filepickerBtn.callOnClick()
@@ -138,7 +155,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
             i.putExtra("filepath", filepath)
         }
         i.setClass(requireContext(), MPVActivity::class.java)
-        playerLauncher.launch(i)
+        startActivity(i)
     }
 
     companion object {
