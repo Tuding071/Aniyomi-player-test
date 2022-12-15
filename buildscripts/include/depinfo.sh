@@ -5,14 +5,14 @@
 # also remember to update path.sh
 
 v_sdk=8512546_latest
-v_ndk=r25
-v_ndk_n=25.0.8775105
+v_ndk=r25b
+v_ndk_n=25.1.8937393
 v_sdk_build_tools=30.0.3
 
 v_lua=5.2.4
-v_harfbuzz=3.1.2
-v_fribidi=1.0.11
-v_freetype=2-11-1
+v_harfbuzz=5.2.0
+v_fribidi=1.0.12
+v_freetype=2-12-1
 v_mbedtls=2.28.1
 v_libxml2=2.9.14
 
