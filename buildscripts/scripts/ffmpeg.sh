@@ -29,8 +29,7 @@ cpuflags=
 	--enable-{jni,mediacodec,mbedtls,libdav1d,libxml2} --disable-vulkan \
 	--disable-static --enable-shared --enable-{gpl,version3} \
 	--disable-{stripping,doc,programs} \
-	--disable-{muxers,encoders,devices} --enable-encoder=mjpeg,png \
-	--enable-demuxer=dash
+	--disable-devices --enable-encoder=mjpeg,png
 
 make -j$cores
 make DESTDIR="$prefix_dir" install
