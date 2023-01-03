@@ -15,6 +15,8 @@ v_fribidi=1.0.12
 v_freetype=2-12-1
 v_mbedtls=2.28.2
 v_libxml2=2.10.3
+v_ffmpeg=n5.1.2
+v_mpv=v0.35.0
 
 
 ## Dependency tree

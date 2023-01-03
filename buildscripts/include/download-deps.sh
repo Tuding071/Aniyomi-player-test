@@ -25,7 +25,7 @@ fi
 [ ! -d dav1d ] && git clone https://code.videolan.org/videolan/dav1d.git
 
 # ffmpeg
-[ ! -d ffmpeg ] && git clone https://github.com/FFmpeg/FFmpeg ffmpeg
+[ ! -d ffmpeg ] && git clone https://github.com/FFmpeg/FFmpeg -b $v_ffmpeg ffmpeg
 
 # freetype2
 [ ! -d freetype2 ] && git clone git://git.sv.nongnu.org/freetype/freetype2.git -b VER-$v_freetype
@@ -55,6 +55,6 @@ if [ ! -d lua ]; then
 fi
 
 # mpv
-[ ! -d mpv ] && git clone https://github.com/mpv-player/mpv
+[ ! -d mpv ] && git clone https://github.com/mpv-player/mpv -b $v_mpv
 
 cd ..
