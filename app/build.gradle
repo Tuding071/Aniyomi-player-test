@@ -11,7 +11,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 29
-        versionName "1.6"
+        versionName "1.8.n"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -42,6 +42,17 @@ android {
             universalApk true // build an APK with all ABIs too
         }
     }
+
+    packagingOptions {
+        exclude '**/libavcodec.so'
+        exclude '**/libavdevice.so'
+        exclude '**/libavfilter.so'
+        exclude '**/libavformat.so'
+        exclude '**/libavutil.so'
+        exclude '**/libswresample.so'
+        exclude '**/libswscale.so'
+        exclude '**/libc++_shared.so'
+    }
 }
 
 dependencies {
@@ -53,7 +64,7 @@ dependencies {
 }
 
 def getVersionName = { ->
-    return "1.6"
+    return "1.8.n"
 }
 
 def getGroupId = { ->

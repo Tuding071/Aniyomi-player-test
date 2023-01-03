@@ -1,4 +1,6 @@
-# mpv for Android
+# THIS DOESN'T WORK WITHOUT ANIYOMI-FFMPEG-KIT
+
+# mpv for Aniyomi
 
 [![Build Status](https://api.travis-ci.com/mpv-android/mpv-android.svg?branch=master)](https://app.travis-ci.com/github/mpv-android/mpv-android)
 
