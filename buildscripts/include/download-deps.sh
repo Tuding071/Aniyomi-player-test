@@ -22,7 +22,7 @@ if [ ! -d libxml2 ]; then
 fi
 
 # dav1d
-[ ! -d dav1d ] && git clone https://code.videolan.org/videolan/dav1d.git
+[ ! -d dav1d ] && git clone https://github.com/videolan/dav1d
 
 # ffmpeg
 [ ! -d ffmpeg ] && git clone https://github.com/FFmpeg/FFmpeg -b $v_ffmpeg ffmpeg
@@ -55,6 +55,6 @@ if [ ! -d lua ]; then
 fi
 
 # mpv
-[ ! -d mpv ] && git clone https://github.com/mpv-player/mpv -b $v_mpv
+[ ! -d mpv ] && git clone https://github.com/mpv-player/mpv
 
 cd ..

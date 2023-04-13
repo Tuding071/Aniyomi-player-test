@@ -10,8 +10,8 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 29
-        versionName "1.8.n"
+        versionCode 30
+        versionName "1.9.n"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -57,14 +57,13 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.media:media:1.6.0'
-    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
 }
 
 def getVersionName = { ->
-    return "1.8.n"
+    return "1.9.n"
 }
 
 def getGroupId = { ->

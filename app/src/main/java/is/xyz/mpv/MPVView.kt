@@ -102,6 +102,7 @@ class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attr
 
         MPVLib.setOptionString("vo", "gpu")
         MPVLib.setOptionString("gpu-context", "android")
+        MPVLib.setOptionString("opengl-es", "yes")
         MPVLib.setOptionString("hwdec", hwdec)
         MPVLib.setOptionString("hwdec-codecs", "h264,hevc,mpeg4,mpeg2video,vp8,vp9")
         MPVLib.setOptionString("ao", "audiotrack,opensles")
@@ -114,8 +115,6 @@ class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attr
         val screenshotDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         screenshotDir.mkdirs()
         MPVLib.setOptionString("screenshot-directory", screenshotDir.path)
-        // DR is known to ruin performance at least on Exynos devices, see #508
-        MPVLib.setOptionString("vd-lavc-dr", "no")
     }
 
     fun playFile(filePath: String) {
@@ -203,6 +202,7 @@ class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attr
             Property("loop-playlist"),
             Property("loop-file"),
             Property("shuffle", MPV_FORMAT_FLAG),
+            Property("hwdec-current")
         )
 
         for ((name, format) in p)
@@ -305,9 +305,6 @@ class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attr
     var playbackSpeed: Double?
         get() = MPVLib.getPropertyDouble("speed")
         set(speed) = MPVLib.setPropertyDouble("speed", speed!!)
-
-    val filename: String?
-        get() = MPVLib.getPropertyString("filename")
 
     val estimatedVfFps: Double?
         get() = MPVLib.getPropertyDouble("estimated-vf-fps")
