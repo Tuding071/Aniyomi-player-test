@@ -22,7 +22,8 @@ extra=
 ../configure \
 	--host=$ndk_triple $extra \
 	--enable-static --disable-shared \
-	--disable-require-system-font-provider
+	--disable-require-system-font-provider \
+	--with-pic
 
 make -j$cores
 make DESTDIR="$prefix_dir" install
