@@ -5,7 +5,7 @@
 . ./include/path.sh # load $os var
 
 [ -z "$TRAVIS" ] && TRAVIS=0 # skip steps not required for CI?
-[ -z "$WGET" ] && WGET=wget # possibility of calling wget differently
+[ -z "$WGET" ] && WGET="wget -q" # possibility of calling wget differently
 
 if [ "$os" == "linux" ]; then
 	if [ $TRAVIS -eq 0 ]; then
@@ -49,6 +49,7 @@ mkdir -p sdk && cd sdk
 
 # Android SDK
 if [ ! -d "android-sdk-${os}" ]; then
+	echo "Downloading command line tools..."
 	$WGET "https://dl.google.com/android/repository/commandlinetools-${os}-${v_sdk}.zip"
 	mkdir "android-sdk-${os}"
 	unzip -q -d "android-sdk-${os}" "commandlinetools-${os}-${v_sdk}.zip"
@@ -59,9 +60,11 @@ sdkmanager () {
 	[ -x "$exe" ] || exe="./android-sdk-$os/cmdline-tools/bin/sdkmanager"
 	"$exe" --sdk_root="${ANDROID_HOME}" "$@"
 }
+echo "Installing Android SDK..."
 echo y | sdkmanager \
 	"platforms;android-33" "build-tools;${v_sdk_build_tools}" \
-	"extras;android;m2repository"
+	"extras;android;m2repository" \
+	 | grep -v = || true
 
 # Android NDK (either standalone or installed by SDK)
 if [ -d "android-ndk-${v_ndk}" ]; then
@@ -69,9 +72,11 @@ if [ -d "android-ndk-${v_ndk}" ]; then
 elif [ -d "android-sdk-$os/ndk/${v_ndk_n}" ]; then
 	ln -s "android-sdk-$os/ndk/${v_ndk_n}" "android-ndk-${v_ndk}"
 elif [ -z "${os_ndk}" ]; then
-	echo y | sdkmanager "ndk;${v_ndk_n}"
+	echo "Installing Android NDK..."
+	echo y | sdkmanager "ndk;${v_ndk_n}" | grep -v = || true
 	ln -s "android-sdk-$os/ndk/${v_ndk_n}" "android-ndk-${v_ndk}"
 else
+	echo "Downloading Android NDK..."
 	$WGET "http://dl.google.com/android/repository/android-ndk-${v_ndk}-${os_ndk}.zip"
 	unzip -q "android-ndk-${v_ndk}-${os_ndk}.zip"
 	rm "android-ndk-${v_ndk}-${os_ndk}.zip"
