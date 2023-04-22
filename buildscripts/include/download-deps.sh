@@ -22,13 +22,13 @@ if [ ! -d libxml2 ]; then
 fi
 
 # dav1d
-[ ! -d dav1d ] && git clone https://github.com/videolan/dav1d
+[ ! -d dav1d ] && git clone https://github.com/videolan/dav1d --depth 1
 
 # ffmpeg
-[ ! -d ffmpeg ] && git clone https://github.com/FFmpeg/FFmpeg -b $v_ffmpeg ffmpeg
+[ ! -d ffmpeg ] && git clone https://github.com/FFmpeg/FFmpeg -b $v_ffmpeg ffmpeg --depth 1
 
 # freetype2
-[ ! -d freetype2 ] && git clone git://git.sv.nongnu.org/freetype/freetype2.git -b VER-$v_freetype
+[ ! -d freetype2 ] && git clone git://git.sv.nongnu.org/freetype/freetype2.git -b VER-$v_freetype --depth 1
 
 # fribidi
 if [ ! -d fribidi ]; then
@@ -45,7 +45,7 @@ if [ ! -d harfbuzz ]; then
 fi
 
 # libass
-[ ! -d libass ] && git clone https://github.com/libass/libass
+[ ! -d libass ] && git clone https://github.com/libass/libass --detph 1
 
 # lua
 if [ ! -d lua ]; then
@@ -55,6 +55,6 @@ if [ ! -d lua ]; then
 fi
 
 # mpv
-[ ! -d mpv ] && git clone https://github.com/mpv-player/mpv
+[ ! -d mpv ] && git clone https://github.com/mpv-player/mpv --depth 1
 
 cd ..
