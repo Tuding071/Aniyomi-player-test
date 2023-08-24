@@ -1,3 +1,5 @@
+jdk:
+  - openjdk17
 before_install:
   - mkdir -p app/build/outputs/aar
   - wget -O app/build/outputs/aar/aniyomi-mpv-lib-release.aar https://github.com/jmir1/mpv-android/releases/download/$VERSION/aniyomi-mpv-lib-$VERSION.aar
