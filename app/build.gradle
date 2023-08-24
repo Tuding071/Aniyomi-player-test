@@ -12,7 +12,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 31
-        versionName "1.9.n"
+        versionName "1.10.n"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -73,7 +73,7 @@ dependencies {
 }
 
 def getVersionName = { ->
-    return "1.9.n"
+    return "1.10.n"
 }
 
 def getGroupId = { ->
