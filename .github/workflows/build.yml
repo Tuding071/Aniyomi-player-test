@@ -38,6 +38,8 @@ jobs:
           ./buildall.sh --arch x86_64 mpv
           ./buildall.sh --arch arm64 mpv
           ./buildall.sh
+        env:
+          GRADLE_OPTS: "-Xmx1G"
       - name: Get tag name
         if: startsWith(github.ref, 'refs/tags/')
         run: |

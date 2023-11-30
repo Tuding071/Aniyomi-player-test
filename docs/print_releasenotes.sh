@@ -4,7 +4,7 @@ top=$PWD
 . "$top"/buildscripts/include/depinfo.sh
 
 commit_hash () {
-	(cd "$1"; git rev-parse --verify HEAD)
+	git -C "$1" rev-parse --verify HEAD
 }
 
 pushd "$top"/buildscripts/deps
@@ -20,6 +20,7 @@ lines=(
 	"* harfbuzz $v_harfbuzz"
 	"* libass libass/libass@$(commit_hash libass)"
 	"* lua $v_lua"
+	"* libplacebo haasn/libplacebo@$(commit_hash libplacebo)"
 	"* libmpv mpv-player/mpv@$(commit_hash mpv)"
 	"* mpv-android $(commit_hash ../..)"
 	""

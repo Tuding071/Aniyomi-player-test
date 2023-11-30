@@ -13,10 +13,12 @@ import kotlin.math.abs
 import kotlin.reflect.KProperty
 
 class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attrs), SurfaceHolder.Callback {
-    fun initialize(configDir: String, logLvl: String = "v") {
+    fun initialize(configDir: String, cacheDir: String, logLvl: String = "v") {
         MPVLib.create(this.context, logLvl)
         MPVLib.setOptionString("config", "yes")
         MPVLib.setOptionString("config-dir", configDir)
+        for (opt in arrayOf("gpu-shader-cache-dir", "icc-cache-dir"))
+            MPVLib.setOptionString(opt, cacheDir)
         initOptions() // do this before init() so user-supplied config can override our choices
         MPVLib.init()
         /* Hardcoded options: */
@@ -31,8 +33,20 @@ class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attr
         observeProperties()
     }
 
+    private var voInUse: String = ""
+
     private fun initOptions() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context)
+
+        // apply phone-optimized defaults
+        MPVLib.setOptionString("profile", "fast")
+
+        // vo
+        val vo = if (sharedPreferences.getBoolean("gpu_next", false))
+            "gpu-next"
+        else
+            "gpu"
+        voInUse = vo
 
         // hwdec
         val hwdec = if (sharedPreferences.getBoolean("hardware_decoding", true))
@@ -47,7 +61,7 @@ class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attr
             val refreshRate = disp.mode.refreshRate
 
             Log.v(TAG, "Display ${disp.displayId} reports FPS of $refreshRate")
-            MPVLib.setOptionString("override-display-fps", refreshRate.toString())
+            MPVLib.setOptionString("display-fps-override", refreshRate.toString())
         } else {
             Log.v(TAG, "Android version too old, disabling refresh rate functionality " +
                        "(${Build.VERSION.SDK_INT} < ${Build.VERSION_CODES.M})")
@@ -104,7 +118,7 @@ class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attr
             MPVLib.setOptionString("vd-lavc-skiploopfilter", "nonkey")
         }
 
-        MPVLib.setOptionString("vo", "gpu")
+        MPVLib.setOptionString("vo", vo)
         MPVLib.setOptionString("gpu-context", "android")
         MPVLib.setOptionString("opengl-es", "yes")
         MPVLib.setOptionString("hwdec", hwdec)
@@ -120,6 +134,8 @@ class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attr
         screenshotDir.mkdirs()
         MPVLib.setOptionString("screenshot-directory", screenshotDir.path)
     }
+
+    private var filePath: String? = null
 
     fun playFile(filePath: String) {
         this.filePath = filePath
@@ -195,8 +211,12 @@ class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attr
             Property("seeking", MPV_FORMAT_FLAG),
             Property("pause", MPV_FORMAT_FLAG),
             Property("eof-reached", MPV_FORMAT_FLAG),
+            Property("paused-for-cache", MPV_FORMAT_FLAG),
             Property("track-list"),
-            Property("video-params"),
+            // observing double properties is not hooked up in the JNI code, but doing this
+            // will restrict updates to when it actually changes
+            Property("video-params/aspect", MPV_FORMAT_DOUBLE),
+            //
             Property("playlist-pos", MPV_FORMAT_INT64),
             Property("playlist-count", MPV_FORMAT_INT64),
             Property("video-format"),
@@ -287,8 +307,6 @@ class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attr
         }
         return chapters
     }
-
-    private var filePath: String? = null
 
     // Property getters/setters
 
@@ -407,7 +425,7 @@ class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attr
             filePath = null
         } else {
             // We disable video output when the context disappears, enable it back
-            MPVLib.setPropertyString("vo", "gpu")
+            MPVLib.setPropertyString("vo", voInUse)
         }
     }
 
