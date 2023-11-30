@@ -17,8 +17,8 @@ class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attr
         MPVLib.create(this.context, logLvl)
         MPVLib.setOptionString("config", "yes")
         MPVLib.setOptionString("config-dir", configDir)
-        for (opt in arrayOf("gpu-shader-cache-dir", "icc-cache-dir"))
-            MPVLib.setOptionString(opt, cacheDir)
+        // for (opt in arrayOf("gpu-shader-cache-dir", "icc-cache-dir"))
+        //     MPVLib.setOptionString(opt, cacheDir)
         initOptions() // do this before init() so user-supplied config can override our choices
         MPVLib.init()
         /* Hardcoded options: */
@@ -39,7 +39,7 @@ class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attr
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context)
 
         // apply phone-optimized defaults
-        MPVLib.setOptionString("profile", "fast")
+        // MPVLib.setOptionString("profile", "fast")
 
         // vo
         val vo = if (sharedPreferences.getBoolean("gpu_next", false))
@@ -207,7 +207,6 @@ class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attr
             Property("time-pos", MPV_FORMAT_INT64),
             Property("duration", MPV_FORMAT_INT64),
             Property("demuxer-cache-time", MPV_FORMAT_INT64),
-            Property("paused-for-cache", MPV_FORMAT_FLAG),
             Property("seeking", MPV_FORMAT_FLAG),
             Property("pause", MPV_FORMAT_FLAG),
             Property("eof-reached", MPV_FORMAT_FLAG),
