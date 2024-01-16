@@ -62,7 +62,7 @@ sdkmanager () {
 }
 echo "Installing Android SDK..."
 echo y | sdkmanager \
-	"platforms;android-33" "build-tools;${v_sdk_build_tools}" \
+	"platforms;android-${v_sdk_platform}" "build-tools;${v_sdk_build_tools}" \
 	"extras;android;m2repository" \
 	 | grep -v = || true
 
