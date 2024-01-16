@@ -28,7 +28,7 @@ fi
 [ ! -d ffmpeg ] && git clone https://github.com/FFmpeg/FFmpeg -b $v_ffmpeg ffmpeg --depth 1
 
 # freetype2
-[ ! -d freetype2 ] && git clone --recurse-submodules git://git.sv.nongnu.org/freetype/freetype2.git -b VER-$v_freetype  --depth 1
+[ ! -d freetype2 ] && git clone --recurse-submodules git://git.sv.nongnu.org/freetype/freetype2.git -b VER-$v_freetype --depth 1 --shallow-submodules
 
 # fribidi
 if [ ! -d fribidi ]; then
@@ -62,7 +62,7 @@ if [ ! -d lua ]; then
 fi
 
 # libplacebo
-[ ! -d libplacebo ] && git clone --recursive https://github.com/haasn/libplacebo
+[ ! -d libplacebo ] && git clone --recursive https://github.com/haasn/libplacebo --depth 1 --shallow-submodules
 
 # mpv
 [ ! -d mpv ] && git clone https://github.com/mpv-player/mpv --depth 1
