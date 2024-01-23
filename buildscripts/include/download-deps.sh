@@ -22,10 +22,10 @@ if [ ! -d libxml2 ]; then
 fi
 
 # dav1d
-[ ! -d dav1d ] && git clone https://github.com/videolan/dav1d --depth 1
+[ ! -d dav1d ] && git clone https://github.com/videolan/dav1d.git --depth 1
 
 # ffmpeg
-[ ! -d ffmpeg ] && git clone https://github.com/FFmpeg/FFmpeg -b $v_ffmpeg ffmpeg --depth 1
+[ ! -d ffmpeg ] && git clone https://github.com/FFmpeg/FFmpeg.git -b $v_ffmpeg ffmpeg --depth 1
 
 # freetype2
 [ ! -d freetype2 ] && git clone --recurse-submodules git://git.sv.nongnu.org/freetype/freetype2.git -b VER-$v_freetype --depth 1 --shallow-submodules
@@ -52,7 +52,7 @@ if [ ! -d unibreak ]; then
 fi
 
 # libass
-[ ! -d libass ] && git clone https://github.com/libass/libass --depth 1
+[ ! -d libass ] && git clone https://github.com/libass/libass.git --depth 1
 
 # lua
 if [ ! -d lua ]; then
@@ -62,9 +62,17 @@ if [ ! -d lua ]; then
 fi
 
 # libplacebo
-[ ! -d libplacebo ] && git clone --recursive https://github.com/haasn/libplacebo --depth 1 --shallow-submodules
+[ ! -d libplacebo ] && git clone --recursive https://github.com/haasn/libplacebo.git --depth 1 --shallow-submodules
 
 # mpv
-[ ! -d mpv ] && git clone https://github.com/mpv-player/mpv --depth 1
+if [ ! -d mpv ]; then
+	mkdir mpv
+	cd mpv
+	git init
+	git remote add origin https://github.com/mpv-player/mpv.git
+	git fetch --depth 1 origin $v_mpv
+	git checkout FETCH_HEAD
+	cd ..
+fi
 
 cd ..

@@ -42,10 +42,7 @@ class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attr
         MPVLib.setOptionString("profile", "fast")
 
         // vo
-        val vo = if (sharedPreferences.getBoolean("gpu_next", false))
-            "gpu-next"
-        else
-            "gpu"
+        val vo = "gpu-next"
         voInUse = vo
 
         // hwdec
