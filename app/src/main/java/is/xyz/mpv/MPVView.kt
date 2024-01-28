@@ -13,13 +13,13 @@ import kotlin.math.abs
 import kotlin.reflect.KProperty
 
 class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attrs), SurfaceHolder.Callback {
-    fun initialize(configDir: String, cacheDir: String, logLvl: String = "v") {
+    fun initialize(configDir: String, cacheDir: String, logLvl: String = "v", vo: String = "gpu") {
         MPVLib.create(this.context, logLvl)
         MPVLib.setOptionString("config", "yes")
         MPVLib.setOptionString("config-dir", configDir)
         for (opt in arrayOf("gpu-shader-cache-dir", "icc-cache-dir"))
             MPVLib.setOptionString(opt, cacheDir)
-        initOptions() // do this before init() so user-supplied config can override our choices
+        initOptions(vo) // do this before init() so user-supplied config can override our choices
         MPVLib.init()
         /* Hardcoded options: */
         // we need to call write-watch-later manually
@@ -35,14 +35,13 @@ class MPVView(context: Context, attrs: AttributeSet) : SurfaceView(context, attr
 
     private var voInUse: String = ""
 
-    private fun initOptions() {
+    private fun initOptions(vo: String) {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context)
 
         // apply phone-optimized defaults
         MPVLib.setOptionString("profile", "fast")
 
         // vo
-        val vo = "gpu-next"
         voInUse = vo
 
         // hwdec

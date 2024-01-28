@@ -18,7 +18,7 @@ v_freetype=2-13-2
 v_mbedtls=3.5.1
 v_libxml2=2.11.5
 v_ffmpeg=n6.1.1
-v_mpv=7f595aabf45fd60d080ab80ccdc8def26cfbd2ec
+v_mpv=c6ccabe5854254320b175cde4106ec40d7a30946
 
 
 ## Dependency tree
