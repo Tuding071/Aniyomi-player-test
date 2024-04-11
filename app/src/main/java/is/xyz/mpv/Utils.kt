@@ -414,4 +414,18 @@ object Utils {
         "file", "content", "http", "https",
         "rtmp", "rtmps", "rtp", "rtsp", "mms", "mmst", "mmsh", "tcp", "udp", "lavf"
     )
+
+    data class Versions(
+        val mpv: String,
+        val buildDate: String,
+        val libPlacebo: String,
+        val ffmpeg: String,
+    )
+
+    val VERSIONS = Versions(
+        mpv = "%MPV_VERSION%",
+        buildDate = "%DATE%",
+        libPlacebo = "%LIBPLACEBO_VERSION%",
+        ffmpeg = "%FFMPEG_VERSION%",
+    )
 }
