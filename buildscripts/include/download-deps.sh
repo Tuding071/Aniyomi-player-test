@@ -8,11 +8,7 @@
 mkdir -p deps && cd deps
 
 # mbedtls
-if [ ! -d mbedtls ]; then
-	mkdir mbedtls
-	$WGET https://github.com/ARMmbed/mbedtls/archive/mbedtls-$v_mbedtls.tar.gz -O - | \
-		tar -xz -C mbedtls --strip-components=1
-fi
+[ ! -d mbedtls ] && git clone --recurse-submodules https://github.com/Mbed-TLS/mbedtls.git -b v$v_mbedtls --depth 1 --shallow-submodules
 
 #libxml2
 if [ ! -d libxml2 ]; then

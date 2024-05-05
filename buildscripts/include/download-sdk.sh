@@ -11,11 +11,11 @@ if [ "$os" == "linux" ]; then
 	if [ $TRAVIS -eq 0 ]; then
 		hash yum &>/dev/null && {
 			sudo yum install autoconf pkgconfig libtool ninja-build \
-			python3-pip python3-setuptools unzip wget nasm;
+			python3-pip python3-setuptools python3-jsonschema unzip wget nasm;
 			python3 -m pip install meson; }
 		apt-get -v &>/dev/null && {
 			sudo apt-get install autoconf pkg-config libtool ninja-build \
-			python3-pip python3-setuptools unzip nasm;
+			python3-pip python3-setuptools python3-jsonschema unzip nasm;
 			python3 -m pip install meson; }
 	fi
 

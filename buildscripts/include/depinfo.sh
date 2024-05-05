@@ -4,21 +4,21 @@
 # Make sure to keep v_ndk and v_ndk_n in sync, the numeric version can be found in source.properties
 # also remember to update path.sh
 
-v_sdk=10406996_latest
-v_ndk=r26b
-v_ndk_n=26.1.10909125
+v_sdk=11076708_latest
+v_ndk=r26d
+v_ndk_n=26.3.11579264
 v_sdk_platform=34
-v_sdk_build_tools=33.0.2
+v_sdk_build_tools=34.0.0
 
 v_lua=5.2.4
-v_unibreak=5.1
-v_harfbuzz=8.3.0
-v_fribidi=1.0.13
+v_unibreak=6.1
+v_harfbuzz=8.4.0
+v_fribidi=1.0.14
 v_freetype=2-13-2
-v_mbedtls=3.5.1
-v_libxml2=2.11.5
-v_ffmpeg=n6.1.1
-v_mpv=c6ccabe5854254320b175cde4106ec40d7a30946
+v_mbedtls=3.6.0
+v_libxml2=2.12.6
+v_ffmpeg=n7.0
+v_mpv=67644888e768f5521c406b7662dc2830d86afbb4
 
 
 ## Dependency tree
