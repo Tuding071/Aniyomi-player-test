@@ -23,6 +23,12 @@ jobs:
       with:
         java-version: '17'
         distribution: temurin
+    - uses: actions/cache@v4
+      with:
+        path: gh-cache/
+        key: "prefix-${{ hashFiles('buildscripts/**.sh') }}"
+        restore-keys: "prefix-"
+        enableCrossOsArchive: true
 
     - name: Build the release artifacts
       run: |
@@ -32,5 +38,8 @@ jobs:
         ./download.sh > /dev/null
         ./buildall.sh --arch ${{ matrix.architecture }} mpv
         ./buildall.sh -n
-      env:
-        GRADLE_OPTS: -Xmx4G
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: aniyomi-mpv-lib-${{ matrix.architecture }}
+        path: app/build/outputs/aar/app-default-release.aar
