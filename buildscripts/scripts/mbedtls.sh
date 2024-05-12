@@ -18,5 +18,8 @@ else
 	./scripts/config.py set MBEDTLS_AESNI_C
 fi
 
+# Disable TLSv1.3 because it is currently broken
+./scripts/config.py unset MBEDTLS_SSL_PROTO_TLS1_3
+
 make -j$cores no_test
 make DESTDIR="$prefix_dir" install

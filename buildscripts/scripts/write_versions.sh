@@ -6,7 +6,8 @@ FFMPEG_VERSION=$(cat buildscripts/include/depinfo.sh | grep "v_ffmpeg=" | cut -d
 START_RODATA=0x$(readelf buildscripts/deps/mpv/_build$1/libmpv.so.p/common_version.c.o -S | grep .rodata | cut -d ' ' -f 27)
 START=0x$(readelf buildscripts/deps/mpv/_build$1/libmpv.so.p/common_version.c.o -s | grep mpv_builddate | cut -d ' ' -f 7)
 SIZE=$(readelf buildscripts/deps/mpv/_build$1/libmpv.so.p/common_version.c.o -s | grep mpv_builddate | cut -d ' ' -f 11)
-SKIP=$(($START_RODATA + $START - 1))
+SIZE=$(($SIZE - 1))
+SKIP=$(($START_RODATA + $START))
 dd if=buildscripts/deps/mpv/_build$1/libmpv.so.p/common_version.c.o of=date.txt bs=1 skip=$SKIP count=$SIZE
 DATE=$(cat date.txt)
 rm date.txt
