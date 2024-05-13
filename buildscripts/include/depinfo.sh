@@ -14,10 +14,10 @@ v_unibreak=6.1
 v_harfbuzz=8.4.0
 v_fribidi=1.0.14
 v_freetype=2-13-2
-v_mbedtls=3.6.0
+v_mbedtls=3.5.1
 v_libxml2=2.12.6
 v_ffmpeg=n7.0
-v_mpv=61f72bd5123551d91e7470f879f359f6104ac6bd
+v_mpv=4d32db21c50db8cd9f2e7925c4b37f1490d85963
 
 
 ## Dependency tree
