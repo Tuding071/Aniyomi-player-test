@@ -4,20 +4,20 @@
 # Make sure to keep v_ndk and v_ndk_n in sync, both are listed on the NDK download page
 
 v_sdk=11076708_latest
-v_ndk=r26d
-v_ndk_n=26.3.11579264
+v_ndk=r27c
+v_ndk_n=27.2.12479018
 v_sdk_platform=34
 v_sdk_build_tools=34.0.0
 
 v_lua=5.2.4
 v_unibreak=6.1
-v_harfbuzz=8.4.0
-v_fribidi=1.0.14
-v_freetype=2-13-2
-v_mbedtls=3.5.1
-v_libxml2=2.12.6
-v_ffmpeg=n7.0
-v_mpv=4d32db21c50db8cd9f2e7925c4b37f1490d85963
+v_harfbuzz=10.1.0
+v_fribidi=1.0.16
+v_freetype=2-13-3
+v_mbedtls=3.6.2
+v_libxml2=2.13.5
+v_ffmpeg=n7.1
+v_mpv=baf528069a584c04686262ef6f76e2c9232adba3
 
 
 ## Dependency tree
@@ -38,10 +38,10 @@ dep_mpv=(ffmpeg libass lua libplacebo)
 dep_mpv_android=(mpv)
 
 
-## Travis-related
+## for CI workflow
 
-# pinned ffmpeg commit used by CI
-v_travis_ffmpeg=n6.1.1
+# pinned ffmpeg revision
+v_ci_ffmpeg=n7.1
 
 # filename used to uniquely identify a build prefix
-travis_tarball="prefix-ndk-${v_ndk}-lua-${v_lua}-unibreak-${v_unibreak}-harfbuzz-${v_harfbuzz}-fribidi-${v_fribidi}-freetype-${v_freetype}-mbedtls-${v_mbedtls}-ffmpeg-${v_travis_ffmpeg}.tgz"
+ci_tarball="prefix-ndk-${v_ndk}-lua-${v_lua}-unibreak-${v_unibreak}-harfbuzz-${v_harfbuzz}-fribidi-${v_fribidi}-freetype-${v_freetype}-mbedtls-${v_mbedtls}-ffmpeg-${v_ci_ffmpeg}.tgz"

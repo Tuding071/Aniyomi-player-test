@@ -5,11 +5,11 @@ import `is`.xyz.mpv.R
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceActivity
 import android.preference.PreferenceFragment
 import android.view.MenuItem
+import `is`.xyz.mpv.Utils
 
 /**
  * A [PreferenceActivity] that presents a set of application settings. On
@@ -33,15 +33,15 @@ class SettingsActivity : PreferenceActivity() {
      * Set up the [android.app.ActionBar], if the API is available.
      */
     private fun setupActionBar() {
-        val actionBar = actionBar
-        actionBar?.setDisplayHomeAsUpEnabled(true)
+        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_LEANBACK))
+            actionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     /**
      * {@inheritDoc}
      */
     override fun onIsMultiPane(): Boolean {
-        return isXLargeTablet(this)
+        return Utils.isXLargeTablet(this)
     }
 
     /**
@@ -190,16 +190,6 @@ class SettingsActivity : PreferenceActivity() {
                 return true
             }
             return super.onOptionsItemSelected(item)
-        }
-    }
-
-    companion object {
-        /**
-         * Helper method to determine if the device has an extra-large screen. For
-         * example, 10" tablets are extra-large.
-         */
-        private fun isXLargeTablet(context: Context): Boolean {
-            return context.resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_XLARGE
         }
     }
 }

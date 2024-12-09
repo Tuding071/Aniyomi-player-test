@@ -2,13 +2,17 @@
 
 . ./include/depinfo.sh
 
-[ -z "$TRAVIS" ] && TRAVIS=0
-[ -z "$WGET" ] && WGET="wget -q"
+[ -z "$IN_CI" ] && IN_CI=0
+[ -z "$WGET" ] && WGET=wget
 
 mkdir -p deps && cd deps
 
 # mbedtls
-[ ! -d mbedtls ] && git clone --recurse-submodules https://github.com/Mbed-TLS/mbedtls.git -b v$v_mbedtls --depth 1 --shallow-submodules
+if [ ! -d mbedtls ]; then
+	mkdir mbedtls
+	$WGET https://github.com/Mbed-TLS/mbedtls/releases/download/mbedtls-$v_mbedtls/mbedtls-$v_mbedtls.tar.bz2 -O - | \
+		tar -xj -C mbedtls --strip-components=1
+fi
 
 #libxml2
 if [ ! -d libxml2 ]; then
