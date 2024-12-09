@@ -484,10 +484,11 @@ object Utils {
         val ffmpeg: String,
     )
 
+    // Run buildscripts/scripts/write_versions.sh "<arch>" to update these
     val VERSIONS = Versions(
-        mpv = "",
-        buildDate = "",
-        libPlacebo = "",
-        ffmpeg = "n7.1",
+        mpv = "%MPV_VERSION%",
+        buildDate = "%DATE%",
+        libPlacebo = "%LIBPLACEBO_VERSION%",
+        ffmpeg = "%FFMPEG_VERSION%",
     )
 }
