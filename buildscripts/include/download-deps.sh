@@ -25,7 +25,12 @@ fi
 [ ! -d dav1d ] && git clone https://github.com/videolan/dav1d.git --depth 1
 
 # ffmpeg
-[ ! -d ffmpeg ] && git clone https://github.com/FFmpeg/FFmpeg.git -b $v_ffmpeg ffmpeg --depth 1
+if [ ! -d ffmpeg ]; then
+  git clone https://github.com/FFmpeg/FFmpeg.git -b $v_ffmpeg ffmpeg --depth 1
+  cd ffmpeg
+  git apply ../../patches/ffmpeg_force_mpegts.patch
+  cd ..
+fi
 
 # freetype2
 [ ! -d freetype2 ] && git clone --recurse-submodules git://git.sv.nongnu.org/freetype/freetype2.git -b VER-$v_freetype --depth 1 --shallow-submodules
