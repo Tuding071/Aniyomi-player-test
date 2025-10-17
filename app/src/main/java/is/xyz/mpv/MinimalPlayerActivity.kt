@@ -3,8 +3,8 @@ package `is`.xyz.mpv
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.MotionEvent
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatActivity
 
 class MinimalPlayerActivity : AppCompatActivity() {
 
@@ -18,8 +18,8 @@ class MinimalPlayerActivity : AppCompatActivity() {
         val container = FrameLayout(this)
         setContentView(container)
 
-        // MPVView: no AttributeSet or logLvl needed
-        mpvView = MPVView(this)
+        // Initialize MPV view (pass both context and attrs)
+        mpvView = MPVView(this, null)
         container.addView(
             mpvView,
             FrameLayout.LayoutParams(
@@ -28,24 +28,27 @@ class MinimalPlayerActivity : AppCompatActivity() {
             )
         )
 
-        // Initialize gesture detector
+        // Initialize the MPV core
+        mpvView.initialize()
+
+        // Gesture detection
         gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
-            override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
-                // Toggle play/pause on tap
+            // Single tap = toggle play/pause
+            override fun onSingleTapUp(e: MotionEvent?): Boolean {
                 MPVLib.command(arrayOf("cycle", "pause"))
                 return true
             }
 
+            // Drag left/right = seek
             override fun onScroll(
                 e1: MotionEvent?,
                 e2: MotionEvent?,
                 distanceX: Float,
                 distanceY: Float
             ): Boolean {
-                // Horizontal drag seeking
                 if (e1 != null && e2 != null) {
                     val diff = e2.x - e1.x
-                    val seekTime = diff / 10f // Adjust this sensitivity
+                    val seekTime = diff / 10f // sensitivity
                     MPVLib.command(arrayOf("seek", seekTime.toString(), "relative"))
                 }
                 return true
@@ -55,7 +58,7 @@ class MinimalPlayerActivity : AppCompatActivity() {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         gestureDetector.onTouchEvent(event)
-        return super.onTouchEvent(event)
+        return true
     }
 
     override fun onDestroy() {
