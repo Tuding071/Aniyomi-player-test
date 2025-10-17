@@ -6,6 +6,8 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import `is`.xyz.mpv.MPVLib
+import `is`.xyz.mpv.MPVView
 
 // Make sure your app module depends on the library module in build.gradle:
 // implementation project(":mpv-lib") or correct module name
