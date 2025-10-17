@@ -1,4 +1,4 @@
-package is.xyz.mpv
+package `is`.xyz.mpv
 
 import android.app.Activity
 import android.os.Bundle
@@ -6,6 +6,9 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.FrameLayout
+
+// Make sure your app module depends on the library module in build.gradle:
+// implementation project(":mpv-lib") or correct module name
 
 class MinimalPlayerActivity : Activity() {
 
@@ -18,10 +21,13 @@ class MinimalPlayerActivity : Activity() {
         // Create MPVView (inherits BaseMPVView)
         mpvView = MPVView(this, null)
         val layout = FrameLayout(this)
-        layout.addView(mpvView, FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        ))
+        layout.addView(
+            mpvView,
+            FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+        )
         setContentView(layout)
 
         // Initialize MPV
@@ -35,7 +41,12 @@ class MinimalPlayerActivity : Activity() {
                 return true
             }
 
-            override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
+            override fun onScroll(
+                e1: MotionEvent?,
+                e2: MotionEvent?,
+                distanceX: Float,
+                distanceY: Float
+            ): Boolean {
                 handleSeek(-distanceX)
                 return true
             }
