@@ -1,18 +1,14 @@
 package `is`.xyz.mpv
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.MotionEvent
-import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import android.widget.FrameLayout
-import `is`.xyz.mpv.MPVLib
-import `is`.xyz.mpv.MPVView
 
-// Make sure your app module depends on the library module in build.gradle:
-// implementation project(":mpv-lib") or correct module name
-
-class MinimalPlayerActivity : Activity() {
+class MinimalPlayerActivity : AppCompatActivity(),
+    GestureDetector.OnGestureListener,
+    GestureDetector.OnDoubleTapListener {
 
     private lateinit var mpvView: MPVView
     private lateinit var gestureDetector: GestureDetector
@@ -20,70 +16,64 @@ class MinimalPlayerActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Create MPVView (inherits BaseMPVView)
-        mpvView = MPVView(this, null)
-        val layout = FrameLayout(this)
-        layout.addView(
-            mpvView,
+        // Create container for MPVView
+        val container = FrameLayout(this)
+        setContentView(container)
+
+        // Initialize MPVView programmatically
+        mpvView = MPVView(this, null, logLvl = 2)
+        container.addView(mpvView,
             FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
             )
         )
-        setContentView(layout)
 
-        // Initialize MPV
-        MPVLib.create(this)
+        // Gesture detector for tap/scroll
+        gestureDetector = GestureDetector(this, this)
+        gestureDetector.setOnDoubleTapListener(this)
 
-        // Gesture detection
-        gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
-
-            override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
-                togglePlayPause()
-                return true
-            }
-
-            override fun onScroll(
-                e1: MotionEvent?,
-                e2: MotionEvent?,
-                distanceX: Float,
-                distanceY: Float
-            ): Boolean {
-                handleSeek(-distanceX)
-                return true
-            }
-        })
-
-        // Attach touch listener
-        mpvView.setOnTouchListener { _, event ->
-            gestureDetector.onTouchEvent(event)
-            true
-        }
-
-        // Load video from Intent
-        val uri = intent?.data
-        val path = uri?.path
-        path?.let {
-            MPVLib.command(arrayOf("loadfile", it))
+        // Example: Load a video from Intent extra
+        intent.getStringExtra("videoPath")?.let { path ->
+            MPVLib.command(arrayOf("loadfile", path))
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        MPVLib.destroy()
+    // Pass touch events to gesture detector
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        event?.let { gestureDetector.onTouchEvent(it) }
+        return super.onTouchEvent(event)
     }
 
-    // Pause/Play toggle
-    private fun togglePlayPause() {
+    /** Gesture overrides **/
+
+    override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+        // Toggle play/pause
         MPVLib.command(arrayOf("cycle", "pause"))
+        return true
     }
 
-    // Horizontal seek
-    private fun handleSeek(distanceX: Float) {
-        // Adjust sensitivity (10 pixels = 1 second)
-        val seconds = (distanceX / 10).toInt()
-        if (seconds != 0) {
-            MPVLib.command(arrayOf("seek", seconds.toString(), "relative"))
+    override fun onScroll(
+        e1: MotionEvent?,
+        e2: MotionEvent?,
+        distanceX: Float,
+        distanceY: Float
+    ): Boolean {
+        // Example: horizontal drag for seeking
+        if (e1 != null && e2 != null) {
+            val diff = e2.x - e1.x
+            val seekTime = diff / 10f  // adjust sensitivity
+            MPVLib.command(arrayOf("seek", seekTime.toString(), "relative"))
         }
+        return true
     }
+
+    // Unused gesture methods (required by interface)
+    override fun onDown(e: MotionEvent?) = true
+    override fun onShowPress(e: MotionEvent?) {}
+    override fun onLongPress(e: MotionEvent?) {}
+    override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float) = false
+    override fun onDoubleTap(e: MotionEvent?) = false
+    override fun onDoubleTapEvent(e: MotionEvent?) = false
+    override fun onSingleTapUp(e: MotionEvent?) = false
 }
